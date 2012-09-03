@@ -8,6 +8,8 @@ DependencyDetection.defer do
   executes do
     Padrino::Application.class_eval do
       include PadrinoRpm::Instrumentation::Padrino
+      alias dispatch_without_newrelic dispatch!
+      alias dispatch! dispatch_with_newrelic
     end
   end
 end
@@ -17,7 +19,7 @@ module PadrinoRpm
     module Padrino
       include NewRelic::Agent::Instrumentation::ControllerInstrumentation
       
-      def dispatch!(*args, &block)
+      def dispatch_with_newrelic(*args, &block)
         if @route
           name = @route.as_options[:name]
           short_name = name.to_s.split(/_/).last
