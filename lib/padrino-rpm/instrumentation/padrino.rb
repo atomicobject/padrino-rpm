@@ -54,8 +54,7 @@ module PadrinoRpm
         }
 
         recognized_route = self.class.router.recognize(@env)
-        if recognized_route
-          route_name = recognized_route.first.path.route.named.to_s
+        if recognized_route && (route_name = recognized_route.first.path.route.named.to_s) && !route_name.empty?
           route_info[:name] = route_name
           route_info[:class_name] = route_name.split('_').first.capitalize
         #else
