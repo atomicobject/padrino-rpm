@@ -48,18 +48,15 @@ module PadrinoRpm
       end
 
       def recognize_route_for_newrelic
-        route_info = {
-          name: '(unknown)',
-          class_name: 'Unknown'
-        }
+        route_info = { name: request.env['REQUEST_URI'] }
 
-        recognized_route = self.class.router.recognize(@env)
-        if recognized_route && (route_name = recognized_route.first.path.route.named.to_s) && !route_name.empty?
-          route_info[:name] = route_name
-          route_info[:class_name] = route_name.split('_').first.capitalize
-        #else
-          #logger.warn "ROUTE NOT RECOGNIZED #{@env['PATH_INFO']}"
-        end
+        # recognized_route = self.class.router.recognize(@env)
+        # if recognized_route && (route_name = recognized_route.first.path.route.named.to_s) && !route_name.empty?
+        #   route_info[:name] = route_name
+        #   route_info[:class_name] = route_name.split('_').first.capitalize
+        # #else
+        #   #logger.warn "ROUTE NOT RECOGNIZED #{@env['PATH_INFO']}"
+        # end
 
         #logger.debug "New Relic route: #{route_info}"
 
